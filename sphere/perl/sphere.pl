@@ -40,7 +40,7 @@ sub get_measured_points {
 
   my @pts = ();
 
-  # Generate evenly spaced points on circle.
+  # Generate evenly spaced points on sphere.
   my @multipliers = (-1, 1);
   my $multiplier = undef;
   # x values...
@@ -170,11 +170,9 @@ sub fitSphere {
     print("\nIteration: $attempt\n");
     $msg = sprintf("Min err: %3.2f\n", $minErr);
     print $msg;
-    # print("Min err: $minErr\n");
-    # $msg = sprintf("Min err point: x: %2.2f, y: %2.2f, z: %2.2f, r: %2.2f\n",
-    #  $minErrX, $minErrY, $minErrZ, $minErrR);
-    # print $msg;
-    print("Min err point: x: $minErrX, y: $minErrY, z: $minErrZ, r: $minErrR\n");
+    $msg = sprintf("Min err point: x: %2.2f, y: %2.2f, z: %2.2f, r: %2.2f\n",
+      $minErrX, $minErrY, $minErrZ, $minErrR);
+    print $msg;
 
     $attempt++;
     
@@ -201,7 +199,7 @@ sub fitSphere {
 
 #---main-----------------------------------------------------------------------
 my ($x0, $y0, $z0, $r0) = get_random_sphere(10);
-my $msg = sprintf("Random circle at x: %2.2f, y: %2.2f, z: %2.2f, r: %2.2f", $x0, $y0, $z0, $r0);
+my $msg = sprintf("\nRandom sphere at x: %2.2f, y: %2.2f, z: %2.2f, r: %2.2f", $x0, $y0, $z0, $r0);
 print("$msg\n");
 
 # Generate "measured" points.
