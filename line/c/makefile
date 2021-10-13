@@ -3,11 +3,14 @@ CFLAGS = -g -Wall -O3 -I/usr/local/include
 
 default: demo
 
-demo: example.o 
-	$(CC) -L/usr/local/lib -lgsl -lgslcblas -lm example.o  -o demo
+demo: fitcirc.o main.o 
+	$(CC) -L/usr/local/lib -lgsl -lgslcblas -lm fitcirc.o main.o  -o demo
 
-example.o: example.c
-	$(CC) $(CFLAGS) -c example.c
+fitcirc.o: fitcirc.c pt.h
+	$(CC) $(CFLAGS) -c fitcirc.c
+
+main.o: main.c fitcirc.h pt.h
+	$(CC) $(CFLAGS) -c main.c
 
 
 clean:

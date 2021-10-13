@@ -2,6 +2,7 @@
 # Configure these:
 cc="gcc"
 cflags="-g -Wall -O3 -I/usr/local/include"
+libs="$(pkg-config --libs gsl)"
 target="demo"
 
 # Generate line of source files:
@@ -20,7 +21,7 @@ printf "default: %s\n\n" "${target}"
 
 # Define target and object file dependencies:
 printf "%s: %s\n" "${target}" "${objs}"
-printf '\t$(CC) -L/usr/local/lib -lgsl -lgslcblas -lm %s -o %s\n\n' "${objs}" "${target}" 
+printf '\t$(CC) -L/usr/local/lib %s %s -o %s\n\n' "${libs}" "${objs}" "${target}" 
 
 # Define target and dependencies for source files:
 for f in $(ls *.c)
