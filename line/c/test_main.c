@@ -12,7 +12,7 @@ int tear_down(void** state) { return 0; }
 
 int main(int argc, char* argv[]) {
     const struct CMUnitTest tests[] = {
-        cmocka_unit_test(test_xypoint_get)
+        cmocka_unit_test(test_xypoint)
     };
 
     return cmocka_run_group_tests(tests, setup, tear_down);

@@ -33,7 +33,7 @@ void XYPointList_free(XYPointList *p) {
 }
 
 
-int XYPointList_get(XYPointList* p, int idx, XYPoint* pt) {
+int XYPointList_get(const XYPointList* p, int idx, XYPoint* pt) {
   if (p == NULL) { return PT_NULL_ARG; } 
   if (p->pts == NULL) { return PT_UNINITIALIZED; }
   if ((idx < 0) || (idx >= p->count)) { return PT_INVALID_INDEX; }
