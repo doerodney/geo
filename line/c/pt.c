@@ -3,8 +3,8 @@
 #include "pt.h"
 
 
-XYPoints* XYPoints_new(size_t count) {
-    XYPoints *p = calloc(sizeof(XYPoints), 1);
+XYPointList* XYPointList_new(size_t count) {
+    XYPointList *p = calloc(sizeof(XYPointList), 1);
     XYPoint* pts = calloc(sizeof(XYPoint), count);
 
     p->count = count;
@@ -14,17 +14,17 @@ XYPoints* XYPoints_new(size_t count) {
 }
 
 
-XYPoints* XYPoints_copy(const XYPoints *src) {
+XYPointList* XYPointList_copy(const XYPointList *src) {
     size_t count = src->count;
 
-    XYPoints *dest = XYPoints_new(count);
+    XYPointList *dest = XYPointList_new(count);
     memcpy((void*) dest->pts, (const void*) src->pts, count * sizeof(XYPoint));
 
     return dest;
 }
 
 
-void XYPoints_free(XYPoints *p) {
+void XYPointList_free(XYPointList *p) {
     XYPoint *pts = p->pts;
 
     free((void*) pts);
@@ -33,3 +33,25 @@ void XYPoints_free(XYPoints *p) {
 }
 
 
+int XYPointList_get(XYPointList* p, int idx, XYPoint* pt) {
+  if (p == NULL) { return PT_NULL_ARG; } 
+  if (p->pts == NULL) { return PT_UNINITIALIZED; }
+  if ((idx < 0) || (idx >= p->count)) { return PT_INVALID_INDEX; }
+  
+  XYPoint* src =  &(p->pts[idx]);
+  memcpy((void*) pt, (void*) src, sizeof(XYPoint));
+
+  return 0;
+}
+
+
+int XYPointList_set(XYPointList* p, int idx, XYPoint* pt) {
+  if (p == NULL) { return PT_NULL_ARG; } 
+  if (p->pts == NULL) { return PT_UNINITIALIZED; }
+  if ((idx < 0) || (idx >= p->count)) { return PT_INVALID_INDEX; }
+  
+  XYPoint* dest =  &(p->pts[idx]);
+  memcpy((void*) dest, (void*) pt, sizeof(XYPoint));
+
+  return 0;
+}

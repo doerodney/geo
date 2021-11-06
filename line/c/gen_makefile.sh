@@ -13,7 +13,7 @@ test_target="test"
 projobjs=$(ls *.c | grep -vE "^test" | tr '\n' ' ' | sed -e 's/\.c/\.o/g')
 
 # Generate line of test object files (test plus non-test excluding main.c):
-testobjs=$(ls *.c | grep -v "main.c" | tr '\n' ' ' | sed -e 's/\.c/\.o/g')
+testobjs=$(ls *.c | grep -vE "^main.c" | tr '\n' ' ' | sed -e 's/\.c/\.o/g')
 
 # Generate makefile content:
 # Define macros:
@@ -36,7 +36,7 @@ printf "\nclean:\n"
 printf '\t$(RM) %s %s *.o\n\n' "${target}" "${test_target}"
 
 # Define target and dependencies for source files:
-for f in $(ls *.c | grep -vE "^test")
+for f in $(ls *.c)
 do
   echo "$(${cc} -MM ${f})"
   printf '\t$(CC) $(CFLAGS) -c %s\n' "${f}" 
