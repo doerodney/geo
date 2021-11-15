@@ -24,12 +24,14 @@ XYPointList* XYPointList_copy(const XYPointList *src) {
 }
 
 
-void XYPointList_free(XYPointList *p) {
-    XYPoint *pts = p->pts;
+void XYPointList_free(XYPointList **p) {
+    XYPointList *pList = *p;
+    XYPoint *pts = pList->pts;
 
     free((void*) pts);
 
-    free((void*) p);
+    free((void*) pList);
+    *p = NULL;
 }
 
 
