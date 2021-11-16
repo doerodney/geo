@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "fitcirc.h"
+#include "fitline.h"
 #include "pt.h"
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_multimin.h>
@@ -88,10 +88,10 @@ int main (void)
   my_func.params = (void *) pts;
 
 
-  double stepsize = 0.001;
+  double stepsize = 0.01;
   double epsilon = 0.0001;
   
-  FitCircle(my_func, stepsize, epsilon);
+  FitLine(&my_func, stepsize, epsilon);
 
   XYPointList_free(&pts);
  

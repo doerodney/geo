@@ -3,20 +3,20 @@ CFLAGS = -g -Wall -O3 -I/usr/local/include
 
 default: demo
 
-demo: fitcirc.o main.o pt.o 
-	$(CC) -L/usr/local/lib -lcmocka -lgsl -lgslcblas -lm fitcirc.o main.o pt.o  -o demo
+demo: fitline.o main.o pt.o 
+	$(CC) -L/usr/local/lib -lcmocka -lgsl -lgslcblas -lm fitline.o main.o pt.o  -o demo
 
-test: fitcirc.o pt.o test_main.o test_pt.o 
-	$(CC) -L/usr/local/lib -lcmocka -lgsl -lgslcblas -lm fitcirc.o pt.o test_main.o test_pt.o  -o test
+test: fitline.o pt.o test_main.o test_pt.o 
+	$(CC) -L/usr/local/lib -lcmocka -lgsl -lgslcblas -lm fitline.o pt.o test_main.o test_pt.o  -o test
 
 
 clean:
 	$(RM) demo test *.o
 
-fitcirc.o: fitcirc.c pt.h
-	$(CC) $(CFLAGS) -c fitcirc.c
+fitline.o: fitline.c pt.h
+	$(CC) $(CFLAGS) -c fitline.c
 
-main.o: main.c fitcirc.h pt.h
+main.o: main.c fitline.h pt.h
 	$(CC) $(CFLAGS) -c main.c
 
 pt.o: pt.c pt.h
