@@ -7,7 +7,7 @@
 void get_measured_points(double m, double b, XYPointList *pts) {
   XYPoint pt;
 
-  for (int i = 0; i < pts->count; i++) {
+  for (size_t i = 0; i < pts->count; i++) {
     pt.x = (double) i;
     pt.y = m * pt.x + b;
     XYPointList_set(pts, i, &pt);
@@ -16,10 +16,9 @@ void get_measured_points(double m, double b, XYPointList *pts) {
 
 
 double my_f(const gsl_vector *v, void *params) {
-  double m, b;
+  double m = gsl_vector_get(v, 0);
+  double b = gsl_vector_get(v, 1);
   XYPointList *pts = (XYPointList*) params;
-  m = gsl_vector_get(v, 0);
-  b = gsl_vector_get(v, 1);
 
   double diff = 0.0;
   double err = 0.0;
@@ -40,10 +39,9 @@ double my_f(const gsl_vector *v, void *params) {
 
 
 void my_df(const gsl_vector *v, void *params, gsl_vector *df) {
-  double m, b;
+  double m = gsl_vector_get(v, 0);
+  double b = gsl_vector_get(v, 1);
   XYPointList *pts = (XYPointList*) params;
-  m = gsl_vector_get(v, 0);
-  b = gsl_vector_get(v, 1);
 
   int failure;
   XYPoint pt;
