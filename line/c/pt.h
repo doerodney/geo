@@ -21,8 +21,8 @@ XYPointList* XYPointList_new(size_t count);
 XYPointList* XYPointList_copy(const XYPointList *src);
 void XYPointList_free(XYPointList **p);
 
-int XYPointList_get(const XYPointList* p, int idx, XYPoint* pt);
-int XYPointList_set(XYPointList* p, int idx, XYPoint* pt);
+int XYPointList_get(const XYPointList* p, size_t idx, XYPoint* pt);
+int XYPointList_set(XYPointList* p, size_t idx, XYPoint* pt);
 
 typedef struct {
     double x;

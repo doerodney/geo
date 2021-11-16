@@ -35,10 +35,10 @@ void XYPointList_free(XYPointList **p) {
 }
 
 
-int XYPointList_get(const XYPointList* p, int idx, XYPoint* pt) {
+int XYPointList_get(const XYPointList* p, size_t idx, XYPoint* pt) {
   if (p == NULL) { return PT_NULL_ARG; } 
   if (p->pts == NULL) { return PT_UNINITIALIZED; }
-  if ((idx < 0) || (idx >= p->count)) { return PT_INVALID_INDEX; }
+  if (idx >= p->count) { return PT_INVALID_INDEX; }
   
   XYPoint* src =  &(p->pts[idx]);
   memcpy((void*) pt, (void*) src, sizeof(XYPoint));
@@ -47,10 +47,10 @@ int XYPointList_get(const XYPointList* p, int idx, XYPoint* pt) {
 }
 
 
-int XYPointList_set(XYPointList* p, int idx, XYPoint* pt) {
+int XYPointList_set(XYPointList* p, size_t idx, XYPoint* pt) {
   if (p == NULL) { return PT_NULL_ARG; } 
   if (p->pts == NULL) { return PT_UNINITIALIZED; }
-  if ((idx < 0) || (idx >= p->count)) { return PT_INVALID_INDEX; }
+  if (idx >= p->count) { return PT_INVALID_INDEX; }
   
   XYPoint* dest =  &(p->pts[idx]);
   memcpy((void*) dest, (void*) pt, sizeof(XYPoint));
