@@ -6,9 +6,6 @@ libs="$(pkg-config --libs cmocka gsl)"
 target="demo"
 test_target="test"
 
-# Generate line of non-test*.c source files:
-# srcs=$(ls *.c | grep -vE "^test" | tr '\n' ' ')
-
 # Generate line of project (non-test) object files:
 projobjs=$(ls *.c | grep -vE "^test" | tr '\n' ' ' | sed -e 's/\.c/\.o/g')
 
