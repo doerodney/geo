@@ -15,61 +15,6 @@ void get_measured_points(double m, double b, XYPointList *pts) {
 }
 
 
-double my_f(const gsl_vector *v, void *params) {
-  double m = gsl_vector_get(v, 0);
-  double b = gsl_vector_get(v, 1);
-  XYPointList *pts = (XYPointList*) params;
-
-  double diff = 0.0;
-  double err = 0.0;
-  XYPoint pt;
-  int failure;
-  for (int i = 0; i < pts->count; i++) {
-    failure = XYPointList_get(pts, i, &pt);
-    if (failure) {
-      break;
-    } else {
-      diff = (pt.y - (m * pt.x) - b);
-      err += diff * diff;
-    }
-  }
-
-  return err;
-}
-
-
-void my_df(const gsl_vector *v, void *params, gsl_vector *df) {
-  double m = gsl_vector_get(v, 0);
-  double b = gsl_vector_get(v, 1);
-  XYPointList *pts = (XYPointList*) params;
-
-  int failure;
-  XYPoint pt;
-  double dedm = 0.0;
-  double dedb = 0.0;
-
-  for (int i = 0; i < pts->count; i++) {
-    failure = XYPointList_get(pts, i, &pt);
-    if (failure) {
-      break;
-    } else {
-      dedm += m * pt.x * pt.x - pt.x * pt.y + b * pt.x;
-      dedb += m * pt.x - pt.y + b;
-    }
-  }
-
-  gsl_vector_set(df, 0, dedm);
-  gsl_vector_set(df, 1, dedb);
-}
-
-
-void my_fdf (const gsl_vector *x, void *params, double *f, gsl_vector *df)
-{
-  *f = my_f(x, params);
-  my_df(x, params, df);
-}
-
-
 int main (void)
 {
   double b = 1.0;
@@ -80,19 +25,11 @@ int main (void)
 
   get_measured_points(m, b, pts);
 
-  gsl_multimin_function_fdf my_func;
-
-  my_func.n = 2;  /* number of function components */
-  my_func.f = &my_f;
-  my_func.df = &my_df;
-  my_func.fdf = &my_fdf;
-  my_func.params = (void *) pts;
-
-
   double stepsize = 0.01;
   double epsilon = 0.0001;
   
-  FitLine(&my_func, stepsize, epsilon);
+  FitLineResult result = FitLine(pts, stepsize, epsilon);
+  printf("failure = %d, m = %f, b = %f\n", result.failure, result.m, result.b);
 
   XYPointList_free(&pts);
  
