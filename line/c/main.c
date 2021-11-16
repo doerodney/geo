@@ -14,6 +14,7 @@ void get_measured_points(double m, double b, XYPointList *pts) {
   }
 }
 
+
 double my_f(const gsl_vector *v, void *params) {
   double m, b;
   XYPointList *pts = (XYPointList*) params;
@@ -60,14 +61,16 @@ void my_df(const gsl_vector *v, void *params, gsl_vector *df) {
   }
 
   gsl_vector_set(df, 0, dedm);
-  gsl_vector_set(df, 0, dedb);
+  gsl_vector_set(df, 1, dedb);
 }
+
 
 void my_fdf (const gsl_vector *x, void *params, double *f, gsl_vector *df)
 {
   *f = my_f(x, params);
   my_df(x, params, df);
 }
+
 
 int main (void)
 {
