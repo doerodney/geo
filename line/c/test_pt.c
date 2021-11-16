@@ -46,7 +46,3 @@ void test_xypoint(void** state) {
     assert_int_equal(failure, PT_NULL_ARG);
 }
 
-
-void test_xypoint_set(void** state) {
-
-}
