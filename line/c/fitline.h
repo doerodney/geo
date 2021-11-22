@@ -14,4 +14,6 @@ typedef struct {
 
 FitLineResult FitLine(const XYPointList *pts, double stepSize, double epsilon);
 
+void get_line_test_points(double m, double b, XYPointList *pts);
+
 #endif

@@ -4,16 +4,7 @@
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_multimin.h>
 
-void get_measured_points(double m, double b, XYPointList *pts) {
-  XYPoint pt;
-
-  for (size_t i = 0; i < pts->count; i++) {
-    pt.x = (double) i;
-    pt.y = m * pt.x + b;
-    XYPointList_set(pts, i, &pt);
-  }
-}
-
+#include "test_line.h"
 
 int main (void)
 {
@@ -23,7 +14,7 @@ int main (void)
 
   XYPointList* pts = XYPointList_new(nPts);
 
-  get_measured_points(m, b, pts);
+  get_line_test_points(m, b, pts);
 
   double stepsize = 0.01;
   double epsilon = 0.0001;

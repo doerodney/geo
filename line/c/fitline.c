@@ -59,6 +59,17 @@ static void my_fdf (const gsl_vector *x, void *params, double *f, gsl_vector *df
 }
 
 
+void get_line_test_points(double m, double b, XYPointList *pts) {
+  XYPoint pt;
+
+  for (size_t i = 0; i < pts->count; i++) {
+    pt.x = (double) i;
+    pt.y = m * pt.x + b;
+    XYPointList_set(pts, i, &pt);
+  }
+}
+
+
 FitLineResult FitLine(const XYPointList* pts, double stepSize, double epsilon) {
   FitLineResult result = {.b = 0, .m = 0, .failure = 1};
 

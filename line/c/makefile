@@ -6,8 +6,8 @@ default: demo
 demo: fitcirc.o fitline.o main.o pt.o 
 	$(CC) -L/usr/local/lib -lcmocka -lgsl -lgslcblas -lm fitcirc.o fitline.o main.o pt.o  -o demo
 
-test: fitcirc.o fitline.o pt.o test_main.o test_pt.o 
-	$(CC) -L/usr/local/lib -lcmocka -lgsl -lgslcblas -lm fitcirc.o fitline.o pt.o test_main.o test_pt.o  -o test
+test: fitcirc.o fitline.o pt.o test_line.o test_main.o test_pt.o 
+	$(CC) -L/usr/local/lib -lcmocka -lgsl -lgslcblas -lm fitcirc.o fitline.o pt.o test_line.o test_main.o test_pt.o  -o test
 
 
 clean:
@@ -19,11 +19,14 @@ fitcirc.o: fitcirc.c fitcirc.h pt.h
 fitline.o: fitline.c fitline.h pt.h
 	$(CC) $(CFLAGS) -c fitline.c
 
-main.o: main.c fitline.h pt.h
+main.o: main.c fitline.h pt.h test_line.h
 	$(CC) $(CFLAGS) -c main.c
 
 pt.o: pt.c pt.h
 	$(CC) $(CFLAGS) -c pt.c
+
+test_line.o: test_line.c pt.h
+	$(CC) $(CFLAGS) -c test_line.c
 
 test_main.o: test_main.c test_pt.h
 	$(CC) $(CFLAGS) -c test_main.c
