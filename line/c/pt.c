@@ -14,6 +14,18 @@ XYPointList* XYPointList_new(size_t count) {
 }
 
 
+int XYPointList_count(const XYPointList* p, size_t* count) {
+  
+  if (p == NULL) { return PT_NULL_ARG; } 
+  if (count == NULL) { return PT_NULL_ARG; }
+  if (p->pts == NULL) { return PT_UNINITIALIZED; }
+  
+  *count = p->count;
+  
+  return 0;
+}
+
+
 XYPointList* XYPointList_copy(const XYPointList *src) {
     size_t count = src->count;
 

@@ -5,6 +5,7 @@
 #define PT_UNINITIALIZED 2
 #define PT_INVALID_INDEX 3
 
+#include <stddef.h>
 
 typedef struct {
     double x;
@@ -21,6 +22,7 @@ XYPointList* XYPointList_new(size_t count);
 XYPointList* XYPointList_copy(const XYPointList *src);
 void XYPointList_free(XYPointList **p);
 
+int XYPointList_count(const XYPointList* p, size_t* count);
 int XYPointList_get(const XYPointList* p, size_t idx, XYPoint* pt);
 int XYPointList_set(XYPointList* p, size_t idx, XYPoint* pt);
 
