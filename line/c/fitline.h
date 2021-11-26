@@ -2,7 +2,7 @@
 #define INC_FITLINE_H
 
 #include <stddef.h>
-#include<gsl/gsl_multimin.h>
+#include <gsl/gsl_multimin.h>
 #include "pt.h"
 
 typedef struct {
