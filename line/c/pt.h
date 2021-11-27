@@ -6,6 +6,7 @@
 #define PT_INVALID_INDEX 3
 
 #include <stddef.h>
+#include <gsl/gsl_vector.h>
 
 typedef struct {
     double x;
@@ -14,8 +15,8 @@ typedef struct {
 
 typedef struct {
     size_t count;
-    XYPoint *pts;
-
+    gsl_vector *x;
+    gsl_vector *y;
 } XYPointList;
 
 XYPointList* XYPointList_new(size_t count);

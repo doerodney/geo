@@ -13,7 +13,8 @@ void test_xypoint(void** state) {
     // Test creation:
     XYPointList* p = XYPointList_new(count);
     assert_non_null(p);
-    assert_non_null(p->pts);
+    assert_non_null(p->x);
+    assert_non_null(p->y);
     assert_int_equal(count, p->count);
 
     // Test set/get:
@@ -37,16 +38,12 @@ void test_xypoint(void** state) {
 
     // Test NULL pointer guards:
     XYPointList dummy;
-    dummy.pts = NULL;
+    dummy.x = NULL;
+    dummy.y = NULL;
 
     failure = XYPointList_set(&dummy, 0, &src);
     assert_int_equal(failure, PT_UNINITIALIZED);
 
     failure = XYPointList_set(NULL, 0, &src);
     assert_int_equal(failure, PT_NULL_ARG);
-}
-
-
-void test_xypoint_set(void** state) {
-
 }
