@@ -59,10 +59,48 @@ int XYPointList_get(const XYPointList* p, size_t idx, XYPoint* pt) {
   
   pt->x = gsl_vector_get(p->x, idx);
   pt->y = gsl_vector_get(p->y, idx);
-
   return 0;
 }
 
+int XYPointList_get_max_x(const XYPointList* p, double *x_out) {
+  if (p == NULL) { return PT_NULL_ARG; } 
+  if (p->x == NULL) { 
+    return PT_UNINITIALIZED; 
+  }
+
+  *x_out = gsl_vector_max(p->x);
+  return 0;
+}
+
+int XYPointList_get_max_y(const XYPointList* p, double *y_out) {
+  if (p == NULL) { return PT_NULL_ARG; } 
+  if (p->y == NULL) { 
+    return PT_UNINITIALIZED; 
+  }
+  
+  *y_out = gsl_vector_max(p->y);
+  return 0;
+}
+
+int XYPointList_get_min_x(const XYPointList* p, double *x_out) {
+  if (p == NULL) { return PT_NULL_ARG; } 
+  if (p->x == NULL) { 
+    return PT_UNINITIALIZED; 
+  }
+
+  *x_out = gsl_vector_min(p->x);
+  return 0;
+}
+
+int XYPointList_get_min_y(const XYPointList* p, double *y_out) {
+  if (p == NULL) { return PT_NULL_ARG; } 
+  if (p->y == NULL) { 
+    return PT_UNINITIALIZED; 
+  }
+  
+  *y_out = gsl_vector_min(p->y);
+  return 0;
+}
 
 int XYPointList_set(XYPointList* p, size_t idx, XYPoint* pt) {
   if (p == NULL) { return PT_NULL_ARG; } 

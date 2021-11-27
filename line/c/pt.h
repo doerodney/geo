@@ -25,6 +25,10 @@ void XYPointList_free(XYPointList **p);
 
 int XYPointList_count(const XYPointList* p, size_t* count);
 int XYPointList_get(const XYPointList* p, size_t idx, XYPoint* pt);
+int XYPointList_get_max_x(const XYPointList* p, double *x_out);
+int XYPointList_get_max_y(const XYPointList* p, double *y_out);
+int XYPointList_get_min_x(const XYPointList* p, double *x_out);
+int XYPointList_get_min_y(const XYPointList* p, double *y_out);
 int XYPointList_set(XYPointList* p, size_t idx, XYPoint* pt);
 
 typedef struct {
