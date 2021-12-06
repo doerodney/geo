@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -Wall -O3 -I/usr/local/include
+CFLAGS = -g -Wall -O3 -I/usr/local/include -std=c17
 
 default: demo
 

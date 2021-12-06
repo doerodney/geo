@@ -1,7 +1,7 @@
 #!/bin/bash
 # Configure these:
 cc="gcc"
-cflags="-g -Wall -O3 -I/usr/local/include"
+cflags="-g -Wall -O3 -I/usr/local/include -std=c17"
 libs="$(pkg-config --libs cmocka gsl)"
 target="demo"
 test_target="test"
