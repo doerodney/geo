@@ -8,6 +8,7 @@
 typedef struct {
     double b;
     double m;
+    int vertical;
     int failure;
 } FitLineResult;
 

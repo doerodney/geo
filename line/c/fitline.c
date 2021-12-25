@@ -71,7 +71,7 @@ void get_line_test_points(double m, double b, XYPointList *pts) {
 
 
 FitLineResult FitLine(const XYPointList* pts, double stepSize, double epsilon) {
-  FitLineResult result = {.b = 0, .m = 0, .failure = 1};
+  FitLineResult result = {.b = 0, .m = 0, .vertical = 0, .failure = 1};
 
   size_t iter = 0;
   int status;
