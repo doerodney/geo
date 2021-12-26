@@ -1,21 +1,21 @@
 #include "pt.h"
 #include "vertical.h"
 
-int is_collinear(const XYPointList *pts, double epsilon, int *is_vertical_out) {
+int is_vertical(const XYPointList *pts, double epsilon, int *is_vertical_out) {
     int err = 0;
 
-    // Find min and max y values.  If they vary by less than epsilon, then 
+    // Find min and max x values.  If they vary by less than epsilon, then 
     // the points define a vertical line.
-    double min_y, max_y;
+    double min_x, max_x;
 
-    err = XYPointList_get_min_y(pts, &min_y);
+    err = XYPointList_get_min_x(pts, &min_x);
     
     if (!err) {
-        err = XYPointList_get_max_y(pts, &max_y);
+        err = XYPointList_get_max_x(pts, &max_x);
     }
 
     if (!err) {
-        *is_vertical_out = (fabs(max_y - min_y) < epsilon) ? 1 : 0;
+        *is_vertical_out = ((max_x - min_x) < epsilon) ? 1 : 0;
     } 
     
     return err;

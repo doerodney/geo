@@ -3,11 +3,11 @@ CFLAGS = -g -Wall -O3 -I/usr/local/include -std=c17
 
 default: demo
 
-demo: area.o collinear.o fitcirc.o fitline.o main.o pt.o 
-	$(CC) -L/usr/local/lib -lcmocka -lgsl -lgslcblas -lm area.o collinear.o fitcirc.o fitline.o main.o pt.o  -o demo
+demo: area.o collinear.o fitcirc.o fitline.o main.o pt.o vertical.o 
+	$(CC) -L/usr/local/lib -lcmocka -lgsl -lgslcblas -lm area.o collinear.o fitcirc.o fitline.o main.o pt.o vertical.o  -o demo
 
-test: area.o collinear.o fitcirc.o fitline.o pt.o test_area.o test_collinear.o test_line.o test_main.o test_pt.o 
-	$(CC) -L/usr/local/lib -lcmocka -lgsl -lgslcblas -lm area.o collinear.o fitcirc.o fitline.o pt.o test_area.o test_collinear.o test_line.o test_main.o test_pt.o  -o test
+test: area.o collinear.o fitcirc.o fitline.o pt.o test_area.o test_collinear.o test_line.o test_main.o test_pt.o test_vertical.o vertical.o 
+	$(CC) -L/usr/local/lib -lcmocka -lgsl -lgslcblas -lm area.o collinear.o fitcirc.o fitline.o pt.o test_area.o test_collinear.o test_line.o test_main.o test_pt.o test_vertical.o vertical.o  -o test
 
 
 clean:
@@ -46,4 +46,10 @@ test_main.o: test_main.c test_area.h test_collinear.h test_line.h \
 
 test_pt.o: test_pt.c pt.h
 	$(CC) $(CFLAGS) -c test_pt.c
+
+test_vertical.o: test_vertical.c vertical.h pt.h
+	$(CC) $(CFLAGS) -c test_vertical.c
+
+vertical.o: vertical.c pt.h vertical.h
+	$(CC) $(CFLAGS) -c vertical.c
 

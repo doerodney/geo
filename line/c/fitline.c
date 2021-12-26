@@ -107,13 +107,15 @@ FitLineResult FitLine(const XYPointList* pts, double stepSize, double epsilon) {
       result.failure = 0;
       result.m = gsl_vector_get(s->x, 0);
       result.b = gsl_vector_get(s->x, 1);
-      printf("Minimum found at:\n");
+      // printf("Minimum found at:\n");
     }
 
+    /*--
     printf ("%5d %.5f %.5f %10.5f\n", (int) iter,
         gsl_vector_get(s->x, 0),
         gsl_vector_get(s->x, 1),
         s->f);
+    --*/
 
   } while (status == GSL_CONTINUE && iter < 100);
 
