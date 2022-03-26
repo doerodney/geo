@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -Wall -O3 -I/usr/local/include -std=c17
+CFLAGS = -g -Wall -O3 -I/usr/local/include -std=c17 
 
 default: demo
 
@@ -22,7 +22,7 @@ collinear.o: collinear.c collinear.h pt.h area.h
 fitcirc.o: fitcirc.c fitcirc.h pt.h
 	$(CC) $(CFLAGS) -c fitcirc.c
 
-fitline.o: fitline.c fitline.h pt.h
+fitline.o: fitline.c fitline.h pt.h vertical.h
 	$(CC) $(CFLAGS) -c fitline.c
 
 main.o: main.c fitline.h pt.h test_line.h
@@ -41,7 +41,7 @@ test_line.o: test_line.c fitline.h pt.h
 	$(CC) $(CFLAGS) -c test_line.c
 
 test_main.o: test_main.c test_area.h test_collinear.h test_line.h \
- test_pt.h
+ test_pt.h test_vertical.h
 	$(CC) $(CFLAGS) -c test_main.c
 
 test_pt.o: test_pt.c pt.h
