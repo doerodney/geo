@@ -5,12 +5,20 @@
 #include "fitcirc.h"
 #include "pt.h"
 
+
+// Returns the unsquared difference between 
+// dx * dx + dy * dy - r * r
+// at a specified point 
 double diff(double x, double y, double r, const XYPoint *pt) {
-    double diff = (pow((pt->x - x), 2.0) +pow((pt->y - y), 2.0) - pow(r, 2.0));
+    double dx = pt->x - x;
+    double dy = pt->y - y;
+    double diff = (dx * dx) + (dy * dy) - (r * r);
 
     return diff;
 }
 
+
+// Calculates the total error for a specified (x, y, r).
 static double my_f(const gsl_vector *v, void *params) {
   double x = gsl_vector_get(v, 0);
   double y = gsl_vector_get(v, 1);
@@ -43,23 +51,31 @@ static void my_df(const gsl_vector *v, void *params, gsl_vector *df) {
 
   int failure;
   XYPoint pt;
+  /* Partial derivatives of error function: */
   double dedx = 0.0;
   double dedy = 0.0;
   double dedr = 0.0;
+  
+  // err is the square of the result of 
+  // (dx * dx) + (dy * dy) - (r * r))  
   double err = 0.0;
 
+  // Sum the error over all points:
   for (size_t i = 0; i < pts->count; i++) {
     failure = XYPointList_get(pts, i, &pt);
     if (failure) {
       break;
     } else {
+      // Get the error at a point:
       err = diff(x, y, r, &pt);  
-      dedx += err * (pt.x - x);
-      dedy += err * (pt.y - y);
+      // Update the summed partial derivative values:
+      dedx += err * (x - pt.x);
+      dedy += err * (y - pt.y);
       dedr += err * r;
     }
   }
 
+  // Store the partial derivative values in a vector:
   gsl_vector_set(df, 0, dedx);
   gsl_vector_set(df, 1, dedy);
   gsl_vector_set(df, 2, dedr);
