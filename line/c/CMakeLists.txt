@@ -7,16 +7,22 @@ set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # Ref: https://stackoverflow.com/questions/44821615/linking-gsl-in-cmakelists-txt
-set(SOURCE_FILES 
-  fitline.c
-  main.c
-  pt.c 
-  vertical.c 
-)
 
-add_executable(demo ${SOURCE_FILES})
+add_library(geofit STATIC
+  fitline.c
+  fitline.h
+  pt.c
+  pt.h
+  vertical.c
+  vertical.h
+  )
 
 find_package(GSL REQUIRED)
-target_link_libraries(demo  GSL::gsl GSL::gslcblas)
+target_link_libraries(geofit  GSL::gsl GSL::gslcblas)
 
+add_executable(demo 
+  main.c
+  )
+
+target_link_libraries(demo geofit)
 
