@@ -6,8 +6,10 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-# Ref: https://stackoverflow.com/questions/44821615/linking-gsl-in-cmakelists-txt
+find_package(PkgConfig REQUIRED) # QUIET)
+pkg_search_module(CMOCKA REQUIRED cmocka)
 
+# Ref: https://stackoverflow.com/questions/44821615/linking-gsl-in-cmakelists-txt
 add_library(geofit STATIC
   fitline.c
   fitline.h
@@ -26,3 +28,11 @@ add_executable(demo
 
 target_link_libraries(demo geofit)
 
+add_executable(test
+  test_main.c
+  test_line.c
+  test_vertical.c
+  test_pt.c
+  )
+
+target_link_libraries(test geofit cmocka)
