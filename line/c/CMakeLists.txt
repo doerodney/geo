@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 
-project(geofit LANGUAGES C)
+project(geo LANGUAGES C)
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_EXTENSIONS OFF)
@@ -10,7 +10,7 @@ find_package(PkgConfig REQUIRED) # QUIET)
 pkg_search_module(CMOCKA REQUIRED cmocka)
 
 # Ref: https://stackoverflow.com/questions/44821615/linking-gsl-in-cmakelists-txt
-add_library(geofit STATIC
+add_library(geo STATIC
   fitline.c
   fitline.h
   pt.c
@@ -20,13 +20,13 @@ add_library(geofit STATIC
   )
 
 find_package(GSL REQUIRED)
-target_link_libraries(geofit  GSL::gsl GSL::gslcblas)
+target_link_libraries(geo  GSL::gsl GSL::gslcblas)
 
 add_executable(demo 
   main.c
   )
 
-target_link_libraries(demo geofit)
+target_link_libraries(demo geo)
 
 add_executable(test
   test_main.c
@@ -35,4 +35,4 @@ add_executable(test
   test_pt.c
   )
 
-target_link_libraries(test geofit cmocka)
+target_link_libraries(test geo cmocka)
