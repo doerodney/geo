@@ -22,5 +22,5 @@ This is a C library that fits clouds of points to geometric features.  It is a w
 1. Create a `build` directory under this directory.
 1. `cd build`
 1. `cmake ..`
-1. 'cmake --build .`
+1. `cmake --build .`
  
