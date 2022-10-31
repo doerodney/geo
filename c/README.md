@@ -11,13 +11,13 @@ This is a C library that fits clouds of points to geometric features.  It is a w
 
 # Dependencies
 
-| Library    | Installation Instructions      |
-|----------- | ------------------------------ |
-| cmake      | sudo apt install cmake         |
-| GSL        | sudo apt install libgsl-dev    |
-| gslcblas   | (comes with gsl)               |
-| cmocka     | sudo apt install libcmocka-de  |
-| pkg-config | sudo apt install pkg-config    |
+| Library    | Installation Instructions       |
+|----------- | ------------------------------- |
+| cmake      | sudo apt install cmake          |
+| GSL        | sudo apt install libgsl-dev     |
+| gslcblas   | (comes with gsl)                |
+| cmocka     | sudo apt install libcmocka-dev  |
+| pkg-config | sudo apt install pkg-config     |
 
 # Build Instructions
 1. Create a `build` directory under this directory.
