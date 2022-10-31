@@ -13,6 +13,7 @@ This is a C library that fits clouds of points to geometric features.  It is a w
 
 | Library    | Installation Instructions      |
 |----------- | ------------------------------ |
+| cmake      | sudo apt install cmake         |
 | GSL        | sudo apt install libgsl-dev    |
 | gslcblas   | (comes with gsl)               |
 | cmocka     | sudo apt install libcmocka-de  |
@@ -23,4 +24,4 @@ This is a C library that fits clouds of points to geometric features.  It is a w
 1. `cd build`
 1. `cmake ..`
 1. `cmake --build .`
- 
+
