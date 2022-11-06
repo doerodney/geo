@@ -1,5 +1,5 @@
-#ifndef INC_AREA_H
-#define INC_AREA_H
+#ifndef AREA_H
+#define AREA_H
 
 #include "pt.h"
 

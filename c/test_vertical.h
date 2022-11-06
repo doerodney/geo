@@ -1,5 +1,5 @@
-#ifndef INC_TEST_VERTICAL_H
-#define INC_TEST_VERTICAL_H
+#ifndef TEST_VERTICAL_H
+#define TEST_VERTICAL_H
 
 void test_vertical(void **state);
 

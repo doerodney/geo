@@ -1,5 +1,5 @@
-#ifndef INC_COLLINEAR_H
-#define INC_COLLINEAR_H
+#ifndef COLLINEAR_H
+#define COLLINEAR_H
 
 #include "pt.h"
 

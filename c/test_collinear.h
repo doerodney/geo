@@ -1,5 +1,5 @@
-#ifndef INC_TEST_COLLINEAR_H
-#define INC_TEST_COLLINEAR_H
+#ifndef TEST_COLLINEAR_H
+#define TEST_COLLINEAR_H
 
 void test_collinear(void **state);
 

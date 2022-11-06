@@ -1,5 +1,5 @@
-#ifndef INC_VERTICAL_H
-#define INC_VERTICAL_H
+#ifndef VERTICAL_H
+#define VERTICAL_H
 
 #include "pt.h"
 

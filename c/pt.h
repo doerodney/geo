@@ -1,5 +1,5 @@
-#ifndef INC_PT_H
-#define INC_PT_H
+#ifndef PT_H
+#define PT_H
 
 #define PT_NULL_ARG 1
 #define PT_UNINITIALIZED 2

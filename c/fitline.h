@@ -1,5 +1,5 @@
-#ifndef INC_FITLINE_H
-#define INC_FITLINE_H
+#ifndef FITLINE_H
+#define FITLINE_H
 
 #include <stddef.h>
 #include <gsl/gsl_multimin.h>
