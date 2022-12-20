@@ -1,7 +1,7 @@
 use strict;
 
 sub fitLine {
-  my ($raMeasPts, $maxAttempts, $epsilon) = @_;
+  my ($raMeasPts, $step, $maxAttempts, $epsilon) = @_;
 
   my $minErr = undef;
   my $minErrM = undef;
@@ -11,8 +11,6 @@ sub fitLine {
 
   my $m = 1;
   my $b = 0;
-
-  my $step = 0.01;
 
   my ($dedm, $dedb) = get_gradient($raMeasPts, $m, $b); 
 
@@ -30,17 +28,18 @@ sub fitLine {
     print("$msg\n");
 
     $attempt++;
-    last if ($err < $epsilon);
+    if ($attempt > 1) {
+      if ($err > $prevErr) {
+        # Get the  gradient for the current m,b:
+        ($dedm, $dedb) = get_gradient($raMeasPts, $m, $b);  
+      } else {
+        last if (abs($prevErr - $err) < $epsilon);
+        $m -= ($step * $dedm);
+        $b -= ($step * $dedb);
+      }
 
-    if ($err > $prevErr) {
-      # Get the  gradient for the current m,b:
-      ($dedm, $dedb) = get_gradient($raMeasPts, $m, $b);  
-    } else {
-      $m -= ($step * $dedm);
-      $b -= ($step * $dedb);
+      $prevErr = $err;
     }
-
-    $prevErr = $err;
   }
 }
 
@@ -130,6 +129,7 @@ print("$msg\n");
 my @measPts = get_measured_points($m, $b);
 my $epsilon = 0.001;
 my $maxAttempts = 10000;
+my $step = 0.01;
 
-fitLine(\@measPts, $maxAttempts, $epsilon);
+fitLine(\@measPts, $step, $maxAttempts, $epsilon);
 
