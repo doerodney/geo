@@ -10,18 +10,47 @@ end
 
 
 
-# function my_df(v::Ptr{GSL.C.gsl_vector}, params::Ptr{Cvoid}, df::Ptr{GSL.C.gsl_vector})::Cvoid
-#     dedm::Cdouble = 0.0
-#     dedb::Cdouble = 0.0
+function my_df(_v::Ptr{GSL.C.gsl_vector}, _params::Ptr{Cvoid}, _df::Ptr{GSL.C.gsl_vector})::Cvoid
+    dedm::Cdouble = 0.0
+    dedb::Cdouble = 0.0
+
+    m = GSL.vector_get(_v, 0)
+    # @show m
+    b = GSL.vector_get(_v, 1)
+    # @show b
+
+    params_vec = convert(Ptr{GSL.C.gsl_vector}, _params)
+    params = GSL.wrap_gsl_vector(params_vec)
+    # @show params
+    # @show length(params)
+
+    pt_count::Int64 = length(params)/2
+    # @show pt_count
+    idx = 1
+    for i = 1:pt_count
+        x = params[idx]
+        idx += 1
+        y = params[idx]
+        idx += 1
+        dedm += (x * (m * x - y + b))
+        dedb += (m * x - y + b)
+    end
+
+    @show dedm
+    @show dedb
+
+    GSL.vector_set(_df, 0, dedm)
+    GSL.vector_set(_df, 1, dedb)
+
+end
+
 
 function my_f(_v::Ptr{GSL.C.gsl_vector}, _params::Ptr{Cvoid})::Cdouble
     err::Cdouble = 0.0
     
-    vec = GSL.wrap_gsl_vector(_v)
-    # @show vec
-    m = vec[1]
+    m = GSL.vector_get(_v, 0)
     # @show m
-    b = vec[2]
+    b = GSL.vector_get(_v, 1)
     # @show b
 
     params_vec = convert(Ptr{GSL.C.gsl_vector}, _params)
@@ -41,6 +70,7 @@ function my_f(_v::Ptr{GSL.C.gsl_vector}, _params::Ptr{Cvoid})::Cdouble
         err += (diff * diff)
     end
 
+    @show err
     return err
 end
 
@@ -71,7 +101,16 @@ function main()
 
     err = my_f(v, params)
     @show err
+
+    df = GSL.vector_alloc(n)
+    my_df(v, params, df)
+    # @show df
+    dedm = GSL.vector_get(df, 0)
+    dedb = GSL.vector_get(df, 1)
+    @show dedm
+    @show dedb
+
+
 end
 
 main()
-
