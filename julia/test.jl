@@ -9,14 +9,39 @@ struct XYPt
 end
 
 
-function my_f(v::Ptr{GSL.C.gsl_vector}, params::Ptr{Cvoid})
-    vec = GSL.wrap_gsl_vector(v)
-    @show vec
 
-    pvec = convert(Ptr{GSL.C.gsl_vector}, params)
-    data = GSL.wrap_gsl_vector(pvec)
-    @show data
-    @show length(data)
+# function my_df(v::Ptr{GSL.C.gsl_vector}, params::Ptr{Cvoid}, df::Ptr{GSL.C.gsl_vector})::Cvoid
+#     dedm::Cdouble = 0.0
+#     dedb::Cdouble = 0.0
+
+function my_f(_v::Ptr{GSL.C.gsl_vector}, _params::Ptr{Cvoid})::Cdouble
+    err::Cdouble = 0.0
+    
+    vec = GSL.wrap_gsl_vector(_v)
+    # @show vec
+    m = vec[1]
+    # @show m
+    b = vec[2]
+    # @show b
+
+    params_vec = convert(Ptr{GSL.C.gsl_vector}, _params)
+    params = GSL.wrap_gsl_vector(params_vec)
+    # @show data
+    # @show length(data)
+
+    pt_count::Int64 = length(params)/2
+    # @show pt_count
+    idx = 1
+    for i = 1:pt_count
+        x = params[idx]
+        idx += 1
+        y = params[idx]
+        idx += 1
+        diff = y - m*x - b
+        err += (diff * diff)
+    end
+
+    return err
 end
 
 
@@ -27,7 +52,7 @@ function main()
     b = 1.0
     GSL.vector_set(v, 0, m)
     GSL.vector_set(v, 1, b)
-    @show v
+    # @show v
 
     count = 10
     p = GSL.vector_alloc(count * 2)
@@ -36,37 +61,17 @@ function main()
         # x:
         GSL.vector_set(p, idx, x)
         idx += 1
-        # y:
-        y = m * x + b
+        # y = 3x + 4
+        y = 3 * x + 4
         GSL.vector_set(p, idx, y)
         idx += 1
     end
 
     params = convert(Ptr{Cvoid}, p)
 
-    my_f(v, params)
+    err = my_f(v, params)
+    @show err
 end
 
 main()
 
-# static double my_f(const gsl_vector *v, void *params) {
-#   double m = gsl_vector_get(v, 0);
-#   double b = gsl_vector_get(v, 1);
-#   XYPointList *pts = (XYPointList*) params;
-
-#   double diff = 0.0;
-#   double err = 0.0;
-#   XYPoint pt;
-#   int failure;
-#   for (int i = 0; i < pts->count; i++) {
-#     failure = XYPointList_get(pts, i, &pt);
-#     if (failure) {
-#       break;
-#     } else {
-#       diff = (pt.y - (m * pt.x) - b);
-#       err += diff * diff;
-#     }
-#   }
-
-#   return err;
-# }
