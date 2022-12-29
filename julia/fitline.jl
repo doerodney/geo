@@ -1,17 +1,53 @@
 using Printf
+import GSL
 
 struct XYPt
-    x
-    y
+    x::Float64
+    y::Float64
     XYPt(x, y) = new(x, y)
 end
 
 
-function generate_points(count, m, b)
-    xypts = []
+# static double my_f(const gsl_vector *v, void *params) {
+#   double m = gsl_vector_get(v, 0);
+#   double b = gsl_vector_get(v, 1);
+#   XYPointList *pts = (XYPointList*) params;
+
+#   double diff = 0.0;
+#   double err = 0.0;
+#   XYPoint pt;
+#   int failure;
+#   for (int i = 0; i < pts->count; i++) {
+#     failure = XYPointList_get(pts, i, &pt);
+#     if (failure) {
+#       break;
+#     } else {
+#       diff = (pt.y - (m * pt.x) - b);
+#       err += diff * diff;
+#     }
+#   }
+
+#   return err;
+# }
+
+function error_func(v::GSL.gsl_vector, params::Ptr{Cvoid})::Cdouble
+    # Extract m,b from gsl_vector:
+    covariates = GSL.wrap_gsl_vector(v)
+    m = covariates[1]
+    b = covariates[2]
+    
+    # Convert params from C void* to 
+    
+
+
+end
+
+function generate_points(count, m, b)::Vector{XYPt}
+    xypts = []::Vector{XYPt}
 
     for x = 1:count
-        y = m * x + b
+        noise = rand(-10.0:10.0)/10.0
+        y = m * x + b # + noise
         push!(xypts, XYPt(x, y))
     end
 
@@ -48,58 +84,31 @@ function get_gradient(xypts, m, b)
 end
 
 
-function get_point_errorsq(xypt, m, b)
-    err = xypt.y - m * xypt.x - b
-
-    return err * err
-end
-
-
-function line_gradient_descent(xypts, mi, bi, step, max_steps, epsilon)
-    m = mi
-    b = bi
-
-    err = get_error(xypts, m, b)
-    (dm, db) = get_gradient(xypts, m, b)
-    prev_err = 0
-
-    found = false
-    
-    for step = 1:max_steps
-        prev_err = err
-        # Take a step down the gradient:
-        m -= step * dm
-        b -= step * db
-
-        # Test the error in the new position:
-        err = get_error(xypts, m, b)
-
-        # As we get close to the solution, dm and db become zero.
-        # Test for convergence:
-        if abs(dm) < epsilon && abs(db) < epsilon
-            @printf("(m, b) = (%g, %g) on step %d\n", m, b, step)
-            found = true
-            break
-        end
-        
-        # Did the error increase?  If so, get a new gradient:
-        if err > prev_err
-            (dm, db) = get_gradient(xypts, m, b)
-        end
-    end
-    
-    if !found
-        @printf("(m, b) = (%g, %g) after %d steps exhausted\n", m, b, max_steps)
-    end
-
-    return (m, b)
-end
-
-
 #--main--
+n = 2
+
+# Initial values of (m, b):
+v0 = Cdouble[1.0, 0.0]
+vinit = GSL.vector_alloc(n)
+for i = 1:n
+    GSL.vector_set(vinit, i - 1, v0[i])
+end
+
+
 xypts = generate_points(10, 2, 0)
 err = get_error(xypts, 2, 0)
 @printf("Error = %g for m = %g, b = %g\n", err, 2, 0)
+
+
+my_func = GSL.gsl_multimin_function_fdf
+
+my_func.
+
+my_func.n = 2;                  /* number of function components */
+my_func.f = &my_f;              /* error function */   
+my_func.df = &my_df;            /* gradient function */  
+my_func.fdf = &my_fdf;          /* error and gradient function */
+my_func.params = (void *) pts;  /* data */
 # println(xypts)
 m = 1
 b = 1

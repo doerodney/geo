@@ -9,11 +9,13 @@ struct XYPt
 end
 
 
-function my_f(vars::Ptr{GSL.C.gsl_vector}, params::Ptr{GSL.C.gsl_vector})
+function my_f(vars::Ptr{GSL.C.gsl_vector}, params::Ptr{Cvoid})
     varg = GSL.wrap_gsl_vector(vars)
     @show varg
 
-    parg = GSL.wrap_gsl_vector(params)
+    p = unsafe_load(params)
+    pvec = convert(Ptr{GSL.C.gsl_vector}, params)
+    parg = GSL.wrap_gsl_vector(pvec)
     @show parg
 end
 
@@ -33,9 +35,9 @@ function main()
     end
     @show p
 
-    # params = convert(Ptr{Nothing}, p)
+    params = convert(Ptr{Cvoid}, p)
 
-    my_f(v, p)
+    my_f(v, params)
 end
 
 main()
