@@ -9,31 +9,38 @@ struct XYPt
 end
 
 
-function my_f(vars::Ptr{GSL.C.gsl_vector}, params::Ptr{Cvoid})
-    varg = GSL.wrap_gsl_vector(vars)
-    @show varg
+function my_f(v::Ptr{GSL.C.gsl_vector}, params::Ptr{Cvoid})
+    vec = GSL.wrap_gsl_vector(v)
+    @show vec
 
-    p = unsafe_load(params)
     pvec = convert(Ptr{GSL.C.gsl_vector}, params)
-    parg = GSL.wrap_gsl_vector(pvec)
-    @show parg
+    data = GSL.wrap_gsl_vector(pvec)
+    @show data
+    @show length(data)
 end
 
 
 function main()
     n = 2
     v = GSL.vector_alloc(2)
-    m = 1.414
-    b = 1.732
+    m = 2.0
+    b = 1.0
     GSL.vector_set(v, 0, m)
     GSL.vector_set(v, 1, b)
     @show v
 
-    p = GSL.vector_alloc(n)
-    for i in 1:n
-        GSL.vector_set(p, i - 1, i * 2.0)
+    count = 10
+    p = GSL.vector_alloc(count * 2)
+    idx = 0
+    for x in 1:count
+        # x:
+        GSL.vector_set(p, idx, x)
+        idx += 1
+        # y:
+        y = m * x + b
+        GSL.vector_set(p, idx, y)
+        idx += 1
     end
-    @show p
 
     params = convert(Ptr{Cvoid}, p)
 
