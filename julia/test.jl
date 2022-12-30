@@ -75,6 +75,13 @@ function my_f(_v::Ptr{GSL.C.gsl_vector}, _params::Ptr{Cvoid})::Cdouble
 end
 
 
+function my_fdf(_v::Ptr{GSL.C.gsl_vector}, _params::Ptr{Cvoid}, f::Ptr{Cdouble}, _df::Ptr{GSL.C.gsl_vector})::Cvoid
+    err = my_f(_v, _params)
+    unsafe_store!(f, err)
+    my_df(_v, _params, _df)
+end
+
+
 function main()
     n = 2
     v = GSL.vector_alloc(2)
@@ -109,7 +116,6 @@ function main()
     dedb = GSL.vector_get(df, 1)
     @show dedm
     @show dedb
-
 
 end
 
